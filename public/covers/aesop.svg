@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" width="600" height="800" role="img" aria-label="Aesop's Fables cover">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6a5842"/>
+      <stop offset="0.55" stop-color="#54452f"/>
+      <stop offset="1" stop-color="#3a2f21"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.28" r="0.75">
+      <stop offset="0" stop-color="#f6f1e7" stop-opacity="0.14"/>
+      <stop offset="1" stop-color="#f6f1e7" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="600" height="800" fill="url(#bg)"/>
+  <rect width="600" height="800" fill="url(#glow)"/>
+  <rect x="26" y="26" width="548" height="748" fill="none" stroke="#f6f1e7" stroke-opacity="0.3"/>
+  <circle cx="300" cy="340" r="170" fill="none" stroke="#f6f1e7" stroke-opacity="0.08"/>
+  <text x="300" y="92" text-anchor="middle" fill="#f6f1e7" fill-opacity="0.7" font-family="Georgia,serif" font-size="13" letter-spacing="8">MOYUE · CLASSICS</text>
+  <text x="300" y="280" text-anchor="middle" fill="#f6f1e7" font-family="Georgia,'Times New Roman',serif" font-size="62" font-style="italic">Aesop&#8217;s</text>
+  <text x="300" y="360" text-anchor="middle" fill="#f6f1e7" font-family="Georgia,'Times New Roman',serif" font-size="62" font-style="italic">Fables</text>
+  <line x1="220" y1="410" x2="380" y2="410" stroke="#f6f1e7" stroke-opacity="0.35"/>
+  <text x="300" y="452" text-anchor="middle" fill="#f6f1e7" fill-opacity="0.72" font-family="Georgia,serif" font-size="16" letter-spacing="5">SELECTED TALES</text>
+  <text x="300" y="660" text-anchor="middle" fill="#f6f1e7" fill-opacity="0.8" font-family="Georgia,serif" font-size="20" letter-spacing="4">AESOP</text>
+  <text x="300" y="696" text-anchor="middle" fill="#f6f1e7" fill-opacity="0.5" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-size="12" letter-spacing="6">公版英文 · PDF 阅读示例</text>
+  <rect x="56" y="700" width="48" height="48" fill="#a33a2b"/>
+  <text x="80" y="733" text-anchor="middle" fill="#f6f1e7" font-family="'Songti SC','STSong','SimSun',serif" font-size="24">墨</text>
+</svg>
