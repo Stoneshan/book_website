@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { PdfReader } from "@/components/reader/pdf-reader";
+import { getReaderSession } from "@/lib/auth/reader";
 import { demoBookFileUrl, getBookDetail } from "@/lib/books/queries";
 import { isSupabaseConfigured } from "@/lib/env";
+import { FREE_PREVIEW_PAGES } from "@/lib/reader/preview";
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 
 interface PdfReaderPageProps {
@@ -55,13 +57,13 @@ export default async function PdfReaderPage({ params, searchParams }: PdfReaderP
   if (!fileUrl) {
     return (
       <div className="mx-auto flex min-h-[70vh] w-full max-w-xl flex-col items-center justify-center px-6 text-center">
-        <p className="font-serif-cn text-2xl text-ink">PDF 暂时无法打开</p>
+        <p className="text-2xl font-semibold text-ink">PDF 暂时无法打开</p>
         <p className="mt-3 text-sm leading-6 text-ink-soft">
           文件可能已下架或存储链接不可用。请返回详情页重试，或联系管理员重新上传。
         </p>
         <Link
           href={`/books/${book.id}`}
-          className="mt-7 rounded-full border border-line-strong px-5 py-2 text-sm text-ink-soft transition-colors hover:border-ink/40 hover:text-ink"
+          className="mt-7 rounded-full border border-line bg-white px-5 py-2 text-sm text-ink-soft transition-colors hover:border-brand/40 hover:text-brand"
         >
           返回详情
         </Link>
@@ -71,6 +73,8 @@ export default async function PdfReaderPage({ params, searchParams }: PdfReaderP
 
   const rawPage = typeof query.page === "string" ? Number.parseInt(query.page, 10) : NaN;
   const initialPage = Number.isFinite(rawPage) && rawPage > 0 ? rawPage : null;
+  const session = await getReaderSession();
+  const previewLimit = isSupabaseConfigured() && !session ? FREE_PREVIEW_PAGES : null;
 
   return (
     <PdfReader
@@ -84,6 +88,7 @@ export default async function PdfReaderPage({ params, searchParams }: PdfReaderP
       fileUrl={fileUrl}
       initialPage={initialPage}
       storedPageCount={book.pageCount}
+      previewLimit={previewLimit}
     />
   );
 }

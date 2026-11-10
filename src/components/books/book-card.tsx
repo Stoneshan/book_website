@@ -8,7 +8,7 @@ export function BookCard({ book }: { book: BookSummary }) {
     <article className="group flex flex-col">
       <Link
         href={`/books/${book.id}`}
-        className="book-cover-shadow relative block rounded-[3px] transition-transform duration-300 ease-out group-hover:-translate-y-1.5"
+        className="book-cover-shadow relative block rounded-lg transition-all duration-300 ease-out group-hover:-translate-y-1 group-hover:shadow-[0_18px_36px_-16px_rgba(15,23,42,0.4)]"
         aria-label={`《${book.title}》${book.author}`}
       >
         <BookCover
@@ -17,23 +17,24 @@ export function BookCard({ book }: { book: BookSummary }) {
           coverUrl={book.coverUrl}
           format={book.format}
         />
+        <FormatBadge
+          format={book.format}
+          className="absolute left-2 top-2 border-white/50 bg-white/90 text-ink-soft shadow-sm backdrop-blur"
+        />
       </Link>
 
-      <div className="mt-3 flex items-start justify-between gap-2">
-        <div className="min-w-0">
-          <h3 className="truncate font-serif-cn text-[15px] font-semibold tracking-wide text-ink">
-            <Link href={`/books/${book.id}`} className="hover:text-vermilion">
-              {book.title}
-            </Link>
-          </h3>
-          <p className="mt-1 truncate text-xs text-ink-faint">{book.author}</p>
-        </div>
-        <FormatBadge format={book.format} className="mt-0.5 shrink-0" />
+      <div className="mt-3 min-w-0">
+        <h3 className="truncate text-[15px] font-medium leading-6 text-ink">
+          <Link href={`/books/${book.id}`} className="transition-colors hover:text-brand">
+            {book.title}
+          </Link>
+        </h3>
+        <p className="mt-0.5 truncate text-xs text-ink-faint">{book.author}</p>
       </div>
 
       <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-ink-faint">
         {book.categories.slice(0, 2).map((category) => (
-          <span key={category.id} className="rounded-sm bg-paper-deep/70 px-1.5 py-0.5">
+          <span key={category.id} className="rounded-full bg-paper-deep px-2 py-0.5">
             {category.name}
           </span>
         ))}

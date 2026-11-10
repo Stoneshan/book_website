@@ -12,7 +12,7 @@ const styles: Record<BookStatus, string> = {
   uploading: "border-amber-600/25 bg-amber-500/10 text-amber-800",
   parsing: "border-[#5b5470]/25 bg-[#5b5470]/10 text-[#5b5470]",
   ready: "border-[#3f6b52]/25 bg-[#3f6b52]/10 text-[#3f6b52]",
-  failed: "border-vermilion/25 bg-vermilion/8 text-vermilion",
+  failed: "border-danger/25 bg-danger/8 text-danger",
 };
 
 export function StatusBadge({

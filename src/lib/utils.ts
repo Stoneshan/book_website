@@ -76,6 +76,14 @@ export function bookPath(id: string): string {
   return `/books/${id}`;
 }
 
+export function safeNextPath(value: string | null | undefined, fallback = "/"): string {
+  if (!value) return fallback;
+  if (!value.startsWith("/") || value.startsWith("//") || value.startsWith("/\\")) {
+    return fallback;
+  }
+  return value;
+}
+
 export function readerPath(
   id: string,
   target: { kind: "chapter"; chapterNo: number } | { kind: "pdf"; page?: number },

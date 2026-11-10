@@ -23,7 +23,9 @@ export async function proxy(request: NextRequest) {
 
   if (!isSupabaseConfigured()) {
     const response = NextResponse.next({ request });
-    response.headers.set("Cache-Control", "private, no-store");
+    if (pathname.startsWith("/admin") || pathname.startsWith("/api/admin")) {
+      response.headers.set("Cache-Control", "private, no-store");
+    }
     return response;
   }
 
@@ -74,10 +76,12 @@ export async function proxy(request: NextRequest) {
     return copyCookies(response, redirectResponse);
   }
 
-  response.headers.set("Cache-Control", "private, no-store");
+  if (pathname.startsWith("/admin") || pathname.startsWith("/api/admin")) {
+    response.headers.set("Cache-Control", "private, no-store");
+  }
   return response;
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/api/admin/:path*"],
+  matcher: ["/admin/:path*", "/api/admin/:path*", "/books/:path*", "/login", "/register"],
 };

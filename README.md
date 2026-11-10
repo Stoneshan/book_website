@@ -16,7 +16,7 @@
 **重排阅读器**（TXT / MD / EPUB / MOBI / AZW3）
 - 章节导航、目录抽屉、键盘 `←` `→` 翻章
 - 字号、行距、版心宽度、宋体/黑体切换
-- 纸白 / 米黄 / 夜间三种主题，刷新不闪白
+- 白色 / 米黄 / 夜间三种主题，刷新不闪白
 - 阅读进度自动保存并恢复滚动位置
 - 章节书签、笔记；选中正文可直接摘录记笔记
 
@@ -27,10 +27,10 @@
 - 夜间周围主题 + 页面降亮
 
 **读者账号**
-- `/login` 使用邮箱 + 密码登录（Supabase Auth）
-- 顶栏显示当前读者，可退出登录
-- 当前为临时账号阶段，注册暂时关闭；后续在 Supabase 打开注册并补一个注册页即可
-- 阅读本身不需要登录；书签、笔记与进度仍保存在本机浏览器
+- `/login` 使用邮箱 + 密码登录，`/register` 支持自助注册（Supabase Auth）
+- 游客可免费阅读前 **20 页**；重排书按约 800 字/页折算，超出后提示登录或注册
+- 登录后可阅读全书；顶栏显示当前读者，可退出登录
+- 书签、笔记与进度仍保存在本机浏览器
 
 **管理后台**
 - Supabase Auth 邮箱 + 密码登录，`ADMIN_EMAILS` 白名单
@@ -90,7 +90,7 @@ cp .env.example .env.local
 
 > `SUPABASE_SECRET_KEY` 拥有绕过 RLS 的权限，**绝不能**加 `NEXT_PUBLIC_` 前缀或提交到仓库。
 
-### 4. 创建管理员
+### 4. 创建管理员并开放读者注册
 
 Supabase Dashboard → **Authentication → Users → Add user**：
 
@@ -98,7 +98,19 @@ Supabase Dashboard → **Authentication → Users → Add user**：
 - 确认邮箱（Confirm email）
 - 把同一个邮箱写进 `ADMIN_EMAILS`
 
-同时到 **Authentication → Sign In / Providers → Email** 关闭 **Allow new users to sign up**。本站不开放读者注册。
+读者注册：
+
+1. **Authentication → Sign In / Providers → Email** 打开 **Allow new users to sign up**。
+2. 建议保持 **Confirm email** 开启；注册后用户需点击邮件里的确认链接。
+3. **Authentication → URL Configuration**：
+   - Site URL 填部署地址，例如 `https://your-domain.vercel.app`
+   - Redirect URLs 增加 `http://localhost:3000/auth/confirm` 与
+     `https://your-domain.vercel.app/auth/confirm`
+4. 生产环境建议配置自有 SMTP，避免 Supabase 默认邮件额度不足。
+5. 若确认邮件没有带上 `code` / `token_hash`，请在 **Authentication → Email Templates → Confirm signup** 把链接改为
+   `{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=email`。
+
+> 未配置 Supabase 时进入演示模式，不启用 20 页试读限制，所有示例书都可完整阅读。
 
 ### 5. 导入示例书（可选）
 
@@ -190,6 +202,8 @@ npx tsx scripts/test-mobi.ts <file.mobi> [mobi|azw3]   # 手动验证 MOBI 解�
 - **MOBI/AZW3** 不保留内嵌图片与原始 CSS；复杂排版可能简化。DRM 文件无法解析。
 - PDF 书籍封面为自动生成的排版封面，不抽取 PDF 首页。
 - 书签、笔记、阅读进度仅保存在**本机浏览器 localStorage**，不跨设备。
+- 游客试读：重排书按 800 字/页折算并在服务端截断章节内容；PDF 的第 20 页之后仅在阅读器中拦截，浏览器仍会加载原始 PDF 文件，无法防止技术用户直接下载。
+- 试读限制是应用层控制：持有 Supabase 匿名 key 的用户仍可直接查询章节表。若需要更强保护，应改为服务端代理所有章节读取并收紧 RLS。
 - 搜索范围为书名 / 作者，不包含章节全文。
 - 单本书章节上限 2000，单章 HTML 上限 1MB。
 - 示例 PDF 为公版英文内容（中文字体嵌入体积大），仅用于演示 PDF 阅读器。
@@ -206,6 +220,9 @@ src/
     books/[id]/page.tsx                   # 详情 + 目录
     books/[id]/read/[chapterNo]/page.tsx  # 重排阅读器
     books/[id]/read/pdf/page.tsx          # PDF 阅读器
+    login/page.tsx                        # 读者登录
+    register/page.tsx                     # 读者注册
+    auth/confirm/page.tsx                 # 邮箱确认回调
     admin/                                # 后台页面与 Server Actions
     api/admin/books/[id]/parse/route.ts   # 下载 + 解析 + 入库
   components/
@@ -216,6 +233,7 @@ src/
     supabase/          # browser / server / public / admin 客户端
     auth/              # 白名单与 requireAdmin
     reader/storage.ts  # 进度 / 书签 / 笔记 / 设置
+    reader/preview.ts  # 20 页试读计算与 HTML 截断
     demo/books.ts      # 演示数据（seed 共用）
   proxy.ts             # Next.js 16 Proxy：会话刷新 + 后台门禁
 supabase/migrations/20261110000000_init.sql

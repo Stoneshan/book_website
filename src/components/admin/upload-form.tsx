@@ -148,8 +148,8 @@ export function UploadForm({ categories }: UploadFormProps) {
         className={cn(
           "relative flex flex-col items-center justify-center rounded-lg border border-dashed px-6 py-10 text-center transition-colors",
           dragging
-            ? "border-vermilion bg-vermilion/5"
-            : "border-line-strong bg-card/50 hover:border-ink/30",
+            ? "border-brand bg-brand/5"
+            : "border-line bg-card/50 hover:border-ink/30",
         )}
       >
         <input
@@ -160,8 +160,8 @@ export function UploadForm({ categories }: UploadFormProps) {
           onChange={(event) => acceptFile(event.target.files?.[0] ?? null)}
         />
         {file ? (
-          <div className="flex w-full max-w-xl items-center gap-3 rounded-md border border-line bg-card px-4 py-3 text-left">
-            <FileText className="h-8 w-8 shrink-0 text-vermilion/80" aria-hidden />
+          <div className="flex w-full max-w-xl items-center gap-3 rounded-lg border border-line bg-white px-4 py-3 text-left">
+            <FileText className="h-8 w-8 shrink-0 text-brand/80" aria-hidden />
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm text-ink">{file.name}</p>
               <p className="mt-0.5 text-[11px] text-ink-faint">
@@ -175,7 +175,7 @@ export function UploadForm({ categories }: UploadFormProps) {
                 setFile(null);
                 if (inputRef.current) inputRef.current.value = "";
               }}
-              className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-ink-faint hover:bg-paper-deep hover:text-ink"
+              className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-ink-faint hover:bg-paper-deep hover:text-brand"
             >
               <X className="h-4 w-4" aria-hidden />
             </button>
@@ -183,7 +183,7 @@ export function UploadForm({ categories }: UploadFormProps) {
         ) : (
           <>
             <UploadCloud className="h-9 w-9 text-ink-faint/70" aria-hidden />
-            <p className="mt-3 font-serif-cn text-base text-ink">拖拽文件到这里，或点击选择</p>
+            <p className="mt-3 text-base text-ink">拖拽文件到这里，或点击选择</p>
             <p className="mt-1.5 text-[11px] leading-5 text-ink-faint">
               支持 TXT / Markdown / EPUB / MOBI / AZW3 / PDF
               <br />
@@ -192,7 +192,7 @@ export function UploadForm({ categories }: UploadFormProps) {
             <button
               type="button"
               onClick={() => inputRef.current?.click()}
-              className="mt-4 rounded-full border border-line-strong px-4 py-1.5 text-xs text-ink-soft transition-colors hover:border-ink/40 hover:text-ink"
+              className="mt-4 rounded-full border border-line px-4 py-1.5 text-xs text-ink-soft transition-colors hover:border-brand/40 hover:text-brand"
             >
               选择文件
             </button>
@@ -208,7 +208,7 @@ export function UploadForm({ categories }: UploadFormProps) {
             onChange={(event) => setTitle(event.target.value)}
             maxLength={300}
             placeholder="例如：朝花夕拾"
-            className="w-full rounded-md border border-line-strong bg-card/80 px-3.5 py-2.5 text-sm text-ink outline-none transition-colors focus:border-vermilion/50"
+            className="w-full rounded-lg border border-line bg-white px-3.5 py-2.5 text-sm text-ink outline-none transition-colors focus:border-brand/50"
           />
         </label>
         <label className="block">
@@ -218,7 +218,7 @@ export function UploadForm({ categories }: UploadFormProps) {
             onChange={(event) => setAuthor(event.target.value)}
             maxLength={200}
             placeholder="留空则使用文件元数据或「佚名」"
-            className="w-full rounded-md border border-line-strong bg-card/80 px-3.5 py-2.5 text-sm text-ink outline-none transition-colors focus:border-vermilion/50"
+            className="w-full rounded-lg border border-line bg-white px-3.5 py-2.5 text-sm text-ink outline-none transition-colors focus:border-brand/50"
           />
         </label>
         <label className="block">
@@ -228,7 +228,7 @@ export function UploadForm({ categories }: UploadFormProps) {
             onChange={(event) => setDescription(event.target.value)}
             maxLength={500}
             placeholder="一句话介绍（可留空）"
-            className="w-full rounded-md border border-line-strong bg-card/80 px-3.5 py-2.5 text-sm text-ink outline-none transition-colors focus:border-vermilion/50"
+            className="w-full rounded-lg border border-line bg-white px-3.5 py-2.5 text-sm text-ink outline-none transition-colors focus:border-brand/50"
           />
         </label>
       </div>
@@ -249,8 +249,8 @@ export function UploadForm({ categories }: UploadFormProps) {
                   className={cn(
                     "rounded-full border px-3 py-1.5 text-xs transition-colors",
                     active
-                      ? "border-ink bg-ink text-paper"
-                      : "border-line-strong bg-card/60 text-ink-soft hover:border-ink/40",
+                      ? "border-ink bg-brand text-white"
+                      : "border-line bg-card/60 text-ink-soft hover:border-brand/40",
                   )}
                 >
                   {category.name}
@@ -262,7 +262,7 @@ export function UploadForm({ categories }: UploadFormProps) {
       </div>
 
       {busy ? (
-        <div className="rounded-md border border-line bg-card/70 px-4 py-3">
+        <div className="rounded-lg border border-line bg-white/70 px-4 py-3">
           <ul className="space-y-1.5 text-xs">
             {(["creating", "uploading", "parsing"] as const).map((item) => {
               const order = ["creating", "uploading", "parsing"] as const;
@@ -282,7 +282,7 @@ export function UploadForm({ categories }: UploadFormProps) {
                   ) : item === stage ? (
                     <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
                   ) : (
-                    <span className="inline-block h-3.5 w-3.5 rounded-full border border-line-strong" aria-hidden />
+                    <span className="inline-block h-3.5 w-3.5 rounded-full border border-line" aria-hidden />
                   )}
                   {stageLabels[item]}
                 </li>
@@ -296,7 +296,7 @@ export function UploadForm({ categories }: UploadFormProps) {
       ) : null}
 
       {error ? (
-        <p className="rounded-md border border-vermilion/20 bg-vermilion/6 px-3 py-2 text-xs leading-5 text-vermilion">
+        <p className="rounded-md border border-danger/20 bg-danger/5 px-3 py-2 text-xs leading-5 text-danger">
           {error}
         </p>
       ) : null}
@@ -308,7 +308,7 @@ export function UploadForm({ categories }: UploadFormProps) {
         <button
           type="submit"
           disabled={busy || !file}
-          className="shrink-0 rounded-full bg-vermilion px-6 py-2.5 text-sm tracking-wider text-paper transition-colors hover:bg-[#8f3124] disabled:opacity-50"
+          className="shrink-0 rounded-full bg-brand px-6 py-2.5 text-sm text-white transition-colors hover:bg-brand-deep disabled:opacity-50"
         >
           {busy ? "处理中…" : "上传并解析"}
         </button>

@@ -131,10 +131,10 @@ export function EditBookForm({
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_260px]">
-      <form onSubmit={save} className="paper-card rounded-lg p-5 sm:p-7">
+      <form onSubmit={save} className="paper-card rounded-2xl p-5 sm:p-7">
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line pb-4">
           <div>
-            <h2 className="font-serif-cn text-lg tracking-[0.14em] text-ink">书籍信息</h2>
+            <h2 className="text-lg font-semibold tracking-tight text-ink">书籍信息</h2>
             <p className="mt-1 text-[11px] text-ink-faint">
               修改后会立即反映到前台。重新上传文件请删除后新建。
             </p>
@@ -144,7 +144,7 @@ export function EditBookForm({
               <Link
                 href={`/books/${book.id}`}
                 target="_blank"
-                className="inline-flex items-center gap-1.5 rounded-full border border-line-strong px-3 py-1.5 text-[11px] text-ink-soft transition-colors hover:border-ink/40 hover:text-ink"
+                className="inline-flex items-center gap-1.5 rounded-full border border-line px-3 py-1.5 text-[11px] text-ink-soft transition-colors hover:border-brand/40 hover:text-brand"
               >
                 <ExternalLink className="h-3 w-3" aria-hidden />
                 前台预览
@@ -153,7 +153,7 @@ export function EditBookForm({
             <button
               type="submit"
               disabled={busy}
-              className="inline-flex items-center gap-1.5 rounded-full bg-ink px-4 py-1.5 text-xs text-paper transition-colors hover:bg-ink/85 disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 rounded-full bg-brand px-4 py-1.5 text-xs text-white transition-colors hover:bg-brand/85 disabled:opacity-50"
             >
               {saving ? (
                 <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
@@ -172,7 +172,7 @@ export function EditBookForm({
               value={title}
               onChange={(event) => setTitle(event.target.value)}
               maxLength={300}
-              className="w-full rounded-md border border-line-strong bg-card/80 px-3.5 py-2.5 text-sm text-ink outline-none transition-colors focus:border-vermilion/50"
+              className="w-full rounded-lg border border-line bg-white px-3.5 py-2.5 text-sm text-ink outline-none transition-colors focus:border-brand/50"
             />
           </label>
           <label className="block">
@@ -181,7 +181,7 @@ export function EditBookForm({
               value={author}
               onChange={(event) => setAuthor(event.target.value)}
               maxLength={200}
-              className="w-full rounded-md border border-line-strong bg-card/80 px-3.5 py-2.5 text-sm text-ink outline-none transition-colors focus:border-vermilion/50"
+              className="w-full rounded-lg border border-line bg-white px-3.5 py-2.5 text-sm text-ink outline-none transition-colors focus:border-brand/50"
             />
           </label>
           <label className="block">
@@ -191,7 +191,7 @@ export function EditBookForm({
               onChange={(event) => setDescription(event.target.value)}
               rows={5}
               maxLength={5000}
-              className="w-full resize-y rounded-md border border-line-strong bg-card/80 px-3.5 py-2.5 text-sm leading-6 text-ink outline-none transition-colors focus:border-vermilion/50"
+              className="w-full resize-y rounded-lg border border-line bg-white px-3.5 py-2.5 text-sm leading-6 text-ink outline-none transition-colors focus:border-brand/50"
             />
           </label>
           <div>
@@ -216,8 +216,8 @@ export function EditBookForm({
                       className={cn(
                         "rounded-full border px-3 py-1.5 text-xs transition-colors",
                         active
-                          ? "border-ink bg-ink text-paper"
-                          : "border-line-strong bg-card/60 text-ink-soft hover:border-ink/40",
+                          ? "border-ink bg-brand text-white"
+                          : "border-line bg-card/60 text-ink-soft hover:border-brand/40",
                       )}
                     >
                       {category.name}
@@ -230,7 +230,7 @@ export function EditBookForm({
         </div>
 
         {error ? (
-          <p className="mt-4 rounded-md border border-vermilion/20 bg-vermilion/6 px-3 py-2 text-xs leading-5 text-vermilion">
+          <p className="mt-4 rounded-md border border-danger/20 bg-danger/5 px-3 py-2 text-xs leading-5 text-danger">
             {error}
           </p>
         ) : null}
@@ -243,7 +243,7 @@ export function EditBookForm({
             type="button"
             onClick={remove}
             disabled={busy}
-            className="inline-flex items-center gap-1.5 rounded-full border border-vermilion/25 px-3.5 py-1.5 text-[11px] text-vermilion transition-colors hover:bg-vermilion/8 disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-full border border-danger/25 px-3.5 py-1.5 text-[11px] text-danger transition-colors hover:bg-danger/8 disabled:opacity-50"
           >
             {deleting ? (
               <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
@@ -256,7 +256,7 @@ export function EditBookForm({
       </form>
 
       <aside className="space-y-4">
-        <div className="paper-card rounded-lg p-4">
+        <div className="paper-card rounded-2xl p-4">
           <div className="book-cover-shadow mx-auto w-32">
             <BookCover
               title={book.title}
@@ -304,9 +304,9 @@ export function EditBookForm({
         </div>
 
         {book.status === "failed" ? (
-          <div className="rounded-md border border-vermilion/25 bg-vermilion/6 p-4">
-            <p className="text-xs font-medium text-vermilion">解析失败</p>
-            <p className="mt-1.5 break-words text-[11px] leading-5 text-vermilion/90">
+          <div className="rounded-md border border-brand/25 bg-brand/6 p-4">
+            <p className="text-xs font-medium text-danger">解析失败</p>
+            <p className="mt-1.5 break-words text-[11px] leading-5 text-danger/90">
               {book.parseError || "未知错误"}
             </p>
           </div>
@@ -317,7 +317,7 @@ export function EditBookForm({
             type="button"
             onClick={retryParse}
             disabled={busy}
-            className="flex w-full items-center justify-center gap-1.5 rounded-full border border-line-strong bg-card px-4 py-2 text-xs text-ink-soft transition-colors hover:border-ink/40 hover:text-ink disabled:opacity-50"
+            className="flex w-full items-center justify-center gap-1.5 rounded-full border border-line bg-card px-4 py-2 text-xs text-ink-soft transition-colors hover:border-brand/40 hover:text-brand disabled:opacity-50"
           >
             {retrying ? (
               <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
@@ -328,7 +328,7 @@ export function EditBookForm({
           </button>
         ) : null}
 
-        <div className="rounded-md border border-line bg-card/50 px-4 py-3 text-[10px] leading-5 text-ink-faint">
+        <div className="rounded-lg border border-line bg-white/50 px-4 py-3 text-[10px] leading-5 text-ink-faint">
           {book.format === "pdf"
             ? "PDF 使用原版页面阅读，不会解析文字；封面为自动生成。"
             : "重新解析会覆盖现有章节，但保留书签与阅读进度的章节编号。"}
@@ -336,7 +336,7 @@ export function EditBookForm({
       </aside>
 
       {toast ? (
-        <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 rounded-full bg-ink px-4 py-2 text-xs text-paper shadow-lg">
+        <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 rounded-full bg-brand px-4 py-2 text-xs text-white shadow-lg">
           {toast}
         </div>
       ) : null}

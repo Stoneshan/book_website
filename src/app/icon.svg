@@ -1,5 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <rect width="64" height="64" rx="10" fill="#a33a2b"/>
-  <rect x="7" y="7" width="50" height="50" rx="7" fill="none" stroke="#f6f1e7" stroke-opacity="0.45"/>
-  <text x="32" y="44" text-anchor="middle" fill="#f6f1e7" font-family="'Songti SC','STSong','SimSun',serif" font-size="34">墨</text>
+  <defs>
+    <linearGradient id="brand" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#4b90ff"/>
+      <stop offset="1" stop-color="#1c66d6"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#brand)"/>
+  <text x="32" y="44" text-anchor="middle" fill="#ffffff" font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif" font-size="34" font-weight="600">墨</text>
 </svg>

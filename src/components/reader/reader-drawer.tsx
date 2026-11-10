@@ -49,11 +49,11 @@ export function ReaderDrawer({
         type="button"
         aria-label="关闭"
         onClick={onClose}
-        className="animate-fade absolute inset-0 bg-black/30 backdrop-blur-[1px]"
+        className="animate-fade absolute inset-0 bg-black/25 backdrop-blur-[2px]"
       />
       <aside
         className={cn(
-          "animate-[drawer-in_0.22s_ease-out] absolute right-0 top-0 flex h-full w-full flex-col border-l shadow-2xl",
+          "animate-[drawer-in_0.22s_ease-out] absolute right-0 top-0 flex h-full w-full flex-col rounded-l-2xl border-l shadow-[0_0_60px_-20px_rgba(15,23,42,0.35)]",
           width,
         )}
         style={{
@@ -67,7 +67,7 @@ export function ReaderDrawer({
           style={{ borderColor: "var(--reader-line)" }}
         >
           <div>
-            <h2 className="font-serif-cn text-base tracking-[0.14em]">{title}</h2>
+            <h2 className="text-base font-semibold tracking-tight">{title}</h2>
             {subtitle ? (
               <p className="mt-1 text-[11px]" style={{ color: "var(--reader-muted)" }}>
                 {subtitle}
@@ -78,7 +78,7 @@ export function ReaderDrawer({
             type="button"
             onClick={onClose}
             aria-label="关闭面板"
-            className="grid h-8 w-8 place-items-center rounded-full transition-colors hover:bg-black/5"
+            className="grid h-8 w-8 place-items-center rounded-full transition-colors reader-hover"
           >
             <X className="h-4 w-4" aria-hidden />
           </button>

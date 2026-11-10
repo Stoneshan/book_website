@@ -14,9 +14,9 @@ interface ReaderSettingsPanelProps {
 }
 
 const themes: Array<{ value: ReaderTheme; label: string; bg: string; fg: string }> = [
-  { value: "light", label: "纸白", bg: "#f6f1e7", fg: "#241f18" },
-  { value: "sepia", label: "米黄", bg: "#efe3c8", fg: "#3b2f22" },
-  { value: "dark", label: "夜间", bg: "#14120f", fg: "#d9d2c5" },
+  { value: "light", label: "白色", bg: "#ffffff", fg: "#1f2329" },
+  { value: "sepia", label: "米黄", bg: "#f6efdf", fg: "#3b3326" },
+  { value: "dark", label: "夜间", bg: "#17181a", fg: "#c9cdd4" },
 ];
 
 function Row({
@@ -54,8 +54,8 @@ export function ReaderSettingsPanel({ settings, onChange }: ReaderSettingsPanelP
               type="button"
               onClick={() => patch({ theme: theme.value })}
               className={cn(
-                "flex flex-col items-center gap-2 rounded-md border px-2 py-3 text-xs transition-colors",
-                settings.theme === theme.value ? "ring-1" : "opacity-80 hover:opacity-100",
+                "flex flex-col items-center gap-2 rounded-xl border px-2 py-3 text-xs transition-all",
+                settings.theme === theme.value ? "" : "opacity-85 hover:opacity-100",
               )}
               style={{
                 borderColor:
@@ -64,8 +64,8 @@ export function ReaderSettingsPanel({ settings, onChange }: ReaderSettingsPanelP
                 color: theme.fg,
                 boxShadow:
                   settings.theme === theme.value
-                    ? "0 0 0 1px var(--reader-accent)"
-                    : undefined,
+                    ? "0 0 0 4px color-mix(in srgb, var(--reader-accent) 16%, transparent)"
+                    : "0 1px 2px rgba(16,24,40,0.04)",
               }}
             >
               <span
@@ -86,7 +86,7 @@ export function ReaderSettingsPanel({ settings, onChange }: ReaderSettingsPanelP
             type="button"
             aria-label="减小字号"
             onClick={() => patch({ fontSize: Math.max(16, settings.fontSize - 1) })}
-            className="grid h-8 w-8 place-items-center rounded-full border"
+            className="grid h-8 w-8 place-items-center rounded-full border transition-colors reader-hover"
             style={{ borderColor: "var(--reader-line)" }}
           >
             <Minus className="h-3.5 w-3.5" aria-hidden />
@@ -106,7 +106,7 @@ export function ReaderSettingsPanel({ settings, onChange }: ReaderSettingsPanelP
             type="button"
             aria-label="增大字号"
             onClick={() => patch({ fontSize: Math.min(30, settings.fontSize + 1) })}
-            className="grid h-8 w-8 place-items-center rounded-full border"
+            className="grid h-8 w-8 place-items-center rounded-full border transition-colors reader-hover"
             style={{ borderColor: "var(--reader-line)" }}
           >
             <Plus className="h-3.5 w-3.5" aria-hidden />
@@ -155,7 +155,7 @@ export function ReaderSettingsPanel({ settings, onChange }: ReaderSettingsPanelP
               type="button"
               onClick={() => patch({ font: option.value })}
               className={cn(
-                "rounded-md border py-2 text-xs tracking-wider transition-colors",
+                "rounded-lg border py-2 text-xs transition-colors",
                 option.className,
               )}
               style={{
@@ -175,7 +175,7 @@ export function ReaderSettingsPanel({ settings, onChange }: ReaderSettingsPanelP
         <button
           type="button"
           onClick={() => onChange({ ...DEFAULT_SETTINGS, theme: settings.theme })}
-          className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs"
+          className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs transition-colors hover:opacity-80"
           style={{ borderColor: "var(--reader-line)", color: "var(--reader-muted)" }}
         >
           <RotateCcw className="h-3 w-3" aria-hidden />

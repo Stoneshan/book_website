@@ -48,7 +48,7 @@ export interface NoteEntry {
 export const DEFAULT_SETTINGS: ReaderSettings = {
   theme: "light",
   fontSize: 19,
-  lineHeight: 1.95,
+  lineHeight: 1.9,
   width: 42,
   font: "serif",
   pdfZoom: 1,

@@ -22,17 +22,17 @@ export function CategoryFilter({ categories, active, q, sort }: CategoryFilterPr
   return (
     <section id="categories" className="scroll-mt-24">
       <div className="mb-4 flex items-center gap-3">
-        <h2 className="font-serif-cn text-lg tracking-[0.18em] text-ink">分类</h2>
+        <h2 className="text-lg font-semibold tracking-tight text-ink">分类</h2>
         <span className="h-px flex-1 bg-line" aria-hidden />
       </div>
       <div className="no-scrollbar -mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
         <Link
           href={buildHref({ categories, q, sort })}
           className={cn(
-            "shrink-0 rounded-full border px-4 py-1.5 text-xs tracking-wider transition-colors",
+            "shrink-0 rounded-full border px-4 py-1.5 text-xs transition-colors",
             !active
-              ? "border-ink bg-ink text-paper"
-              : "border-line-strong/70 bg-card/70 text-ink-soft hover:border-ink/40 hover:text-ink",
+              ? "border-brand bg-brand text-white shadow-[0_6px_16px_-10px_rgba(43,124,246,0.9)]"
+              : "border-line bg-white text-ink-soft hover:border-brand/40 hover:text-brand",
           )}
         >
           全部
@@ -42,10 +42,10 @@ export function CategoryFilter({ categories, active, q, sort }: CategoryFilterPr
             key={category.id}
             href={buildHref({ categories, q, sort, slug: category.slug })}
             className={cn(
-              "shrink-0 rounded-full border px-4 py-1.5 text-xs tracking-wider transition-colors",
+              "shrink-0 rounded-full border px-4 py-1.5 text-xs transition-colors",
               active === category.slug
-                ? "border-ink bg-ink text-paper"
-                : "border-line-strong/70 bg-card/70 text-ink-soft hover:border-ink/40 hover:text-ink",
+                ? "border-brand bg-brand text-white shadow-[0_6px_16px_-10px_rgba(43,124,246,0.9)]"
+                : "border-line bg-white text-ink-soft hover:border-brand/40 hover:text-brand",
             )}
           >
             {category.name}

@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import { ReaderDrawer } from "@/components/reader/reader-drawer";
 import { ReaderSettingsPanel } from "@/components/reader/reader-settings";
+import { PreviewGate } from "@/components/reader/preview-gate";
 import {
   addBookmark,
   addNote,
@@ -60,6 +61,12 @@ interface TextReaderProps {
   prev: ChapterListItem | null;
   next: ChapterListItem | null;
   resume: boolean;
+  preview?: {
+    freePages: number;
+    loginHref: string;
+    registerHref: string;
+    truncated: boolean;
+  } | null;
 }
 
 type DrawerName = "toc" | "bookmarks" | "notes" | "settings" | null;
@@ -80,6 +87,7 @@ export function TextReader({
   prev,
   next,
   resume,
+  preview = null,
 }: TextReaderProps) {
   const router = useRouter();
   const contentRef = useRef<HTMLDivElement>(null);
@@ -357,7 +365,7 @@ export function TextReader({
             <Link
               href={`/books/${book.id}`}
               aria-label="返回书籍详情"
-              className="grid h-9 w-9 shrink-0 place-items-center rounded-full transition-colors hover:bg-black/5"
+              className="grid h-9 w-9 shrink-0 place-items-center rounded-full transition-colors reader-hover"
             >
               <ArrowLeft className="h-4 w-4" aria-hidden />
             </Link>
@@ -365,7 +373,7 @@ export function TextReader({
               <p className="hidden truncate text-[11px] tracking-wide sm:block" style={{ color: "var(--reader-muted)" }}>
                 {book.title}
               </p>
-              <p className="truncate font-serif-cn text-sm tracking-wide">
+              <p className="truncate text-sm font-medium tracking-wide">
                 第 {chapter.chapterNo} 章 · {chapter.title}
               </p>
             </div>
@@ -426,6 +434,11 @@ export function TextReader({
           </h1>
           <p className="mt-3 text-[11px]" style={{ color: "var(--reader-muted)" }}>
             {formatWordCount(chapter.wordCount)}
+            {preview ? (
+              <span className="ml-2" style={{ color: "var(--reader-accent)" }}>
+                · 免费试读前 {preview.freePages} 页
+              </span>
+            ) : null}
           </p>
         </div>
 
@@ -440,11 +453,22 @@ export function TextReader({
           dangerouslySetInnerHTML={{ __html: chapter.content }}
         />
 
-        <div className="mt-14 flex items-center gap-3 rule-ornament">
-          <span className="text-[10px] tracking-[0.32em]" style={{ color: "var(--reader-muted)" }}>
-            本章完
-          </span>
-        </div>
+        {preview?.truncated ? (
+          <div className="mt-12">
+            <PreviewGate
+              freePages={preview.freePages}
+              loginHref={preview.loginHref}
+              registerHref={preview.registerHref}
+              description={`本章为试读内容。游客可免费阅读前 ${preview.freePages} 页，登录或注册后可继续阅读本章及全书。`}
+            />
+          </div>
+        ) : (
+          <div className="mt-14 flex items-center gap-3 rule-ornament">
+            <span className="text-[10px] tracking-[0.32em]" style={{ color: "var(--reader-muted)" }}>
+              本章完
+            </span>
+          </div>
+        )}
 
         <nav className="mt-8 flex items-center justify-between gap-3">
           {prev ? (
@@ -459,7 +483,7 @@ export function TextReader({
           ) : (
             <span />
           )}
-          {next ? (
+          {next && !preview?.truncated ? (
             <Link
               href={`/books/${book.id}/read/${next.chapterNo}`}
               className={NAV_BUTTON}
@@ -474,7 +498,9 @@ export function TextReader({
         </nav>
 
         <div className="mt-10 flex items-center justify-center gap-3 text-[11px]" style={{ color: "var(--reader-muted)" }}>
-          <span>本章 {Math.round(ratio * 100)}%</span>
+          <span>
+            {preview?.truncated ? "试读已结束" : `本章 ${Math.round(ratio * 100)}%`}
+          </span>
           <span aria-hidden>·</span>
           <Link href={`/books/${book.id}`} className="underline underline-offset-4">
             返回目录
@@ -519,7 +545,7 @@ export function TextReader({
                   href={`/books/${book.id}/read/${item.chapterNo}`}
                   onClick={() => setDrawer(null)}
                   className={cn(
-                    "flex items-center gap-3 rounded-sm px-2 py-2.5 text-sm transition-colors hover:bg-black/5",
+                    "flex items-center gap-3 rounded-sm px-2 py-2.5 text-sm transition-colors reader-hover",
                     active && "font-semibold",
                   )}
                   style={{ color: active ? "var(--reader-accent)" : undefined }}
@@ -527,7 +553,7 @@ export function TextReader({
                   <span className="w-7 shrink-0 text-right text-[10px] tabular-nums opacity-60">
                     {String(item.chapterNo).padStart(2, "0")}
                   </span>
-                  <span className="min-w-0 flex-1 truncate font-serif-cn tracking-wide">
+                  <span className="min-w-0 flex-1 truncate tracking-wide">
                     {item.title}
                   </span>
                   <span className="shrink-0 text-[10px] opacity-50">
@@ -579,7 +605,7 @@ export function TextReader({
                     onClick={() => setDrawer(null)}
                     className="min-w-0 flex-1"
                   >
-                    <p className="truncate font-serif-cn text-sm">{entry.label}</p>
+                    <p className="truncate text-sm">{entry.label}</p>
                     <p className="mt-1 text-[10px]" style={{ color: "var(--reader-muted)" }}>
                       {formatRelativeDate(entry.createdAt)}
                       {entry.locator.kind === "chapter" && entry.locator.ratio > 0.02
@@ -595,7 +621,7 @@ export function TextReader({
                       refreshCollections();
                       flash("已移除书签");
                     }}
-                    className="grid h-7 w-7 shrink-0 place-items-center rounded-full opacity-50 transition-opacity hover:bg-black/5 hover:opacity-100"
+                    className="grid h-7 w-7 shrink-0 place-items-center rounded-full opacity-50 transition-opacity reader-hover hover:opacity-100"
                   >
                     <Trash2 className="h-3.5 w-3.5" aria-hidden />
                   </button>
@@ -731,7 +757,7 @@ export function TextReader({
                             setEditingNoteId(note.id);
                             setEditingBody(note.body);
                           }}
-                          className="rounded-full px-1.5 py-0.5 hover:bg-black/5"
+                          className="rounded-full px-1.5 py-0.5 reader-hover"
                         >
                           编辑
                         </button>
@@ -743,7 +769,7 @@ export function TextReader({
                           refreshCollections();
                           flash("笔记已删除");
                         }}
-                        className="rounded-full px-1.5 py-0.5 hover:bg-black/5"
+                        className="rounded-full px-1.5 py-0.5 reader-hover"
                       >
                         删除
                       </button>
@@ -795,7 +821,7 @@ function IconButton({
       onClick={onClick}
       aria-label={label}
       title={label}
-      className="relative grid h-9 w-9 place-items-center rounded-full transition-colors hover:bg-black/5"
+      className="relative grid h-9 w-9 place-items-center rounded-full transition-colors reader-hover"
       style={{ color: active ? "var(--reader-accent)" : undefined }}
     >
       {children}
