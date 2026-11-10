@@ -23,7 +23,9 @@ import {
   Settings2,
   Trash2,
 } from "lucide-react";
+import { PreviewGate } from "@/components/reader/preview-gate";
 import { ReaderDrawer } from "@/components/reader/reader-drawer";
+import { FREE_PREVIEW_PAGES } from "@/lib/reader/preview";
 import {
   addBookmark,
   addNote,
@@ -55,6 +57,7 @@ interface PdfReaderProps {
   fileUrl: string;
   initialPage: number | null;
   storedPageCount: number | null;
+  previewLimit: number | null;
 }
 
 interface OutlineEntry {
@@ -71,7 +74,13 @@ const THEMES = [
   { value: "dark", label: "夜间" },
 ] as const;
 
-export function PdfReader({ book, fileUrl, initialPage, storedPageCount }: PdfReaderProps) {
+export function PdfReader({
+  book,
+  fileUrl,
+  initialPage,
+  storedPageCount,
+  previewLimit,
+}: PdfReaderProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -269,6 +278,10 @@ export function PdfReader({ book, fileUrl, initialPage, storedPageCount }: PdfRe
 
   useEffect(() => {
     if (!doc || !canvasRef.current || containerWidth < 120) return;
+    if (previewLimit !== null && page > previewLimit) {
+      setRendering(false);
+      return;
+    }
     let cancelled = false;
     let renderTask: { promise: Promise<unknown>; cancel: () => void } | null = null;
 
@@ -323,7 +336,7 @@ export function PdfReader({ book, fileUrl, initialPage, storedPageCount }: PdfRe
         // The render task may already have completed.
       }
     };
-  }, [doc, page, zoom, containerWidth, canvasReady]);
+  }, [doc, page, zoom, containerWidth, canvasReady, previewLimit]);
 
   useEffect(() => {
     if (!doc) return;
@@ -432,6 +445,12 @@ export function PdfReader({ book, fileUrl, initialPage, storedPageCount }: PdfRe
     "--reader-line-height": settings.lineHeight,
   } as CSSProperties;
 
+  const locked = previewLimit !== null && page > previewLimit;
+  const freePages = previewLimit ?? FREE_PREVIEW_PAGES;
+  const gateNext = `/books/${book.id}/read/pdf?page=${page}`;
+  const loginHref = `/login?next=${encodeURIComponent(gateNext)}`;
+  const registerHref = `/register?next=${encodeURIComponent(gateNext)}`;
+
   return (
     <div className="reader-surface flex h-screen flex-col" style={style}>
       <header
@@ -464,6 +483,11 @@ export function PdfReader({ book, fileUrl, initialPage, storedPageCount }: PdfRe
               </p>
               <p className="truncate text-sm font-medium tracking-wide">
                 第 {page} / {numPages || "?"} 页
+                {previewLimit !== null ? (
+                  <span className="ml-2 text-[11px] font-normal" style={{ color: "var(--reader-accent)" }}>
+                    · 免费试读前 {previewLimit} 页
+                  </span>
+                ) : null}
               </p>
             </div>
           </div>
@@ -550,6 +574,15 @@ export function PdfReader({ book, fileUrl, initialPage, storedPageCount }: PdfRe
                       返回详情
                     </Link>
                   </div>
+                </div>
+              ) : locked ? (
+                <div className="w-[min(90vw,520px)]">
+                  <PreviewGate
+                    freePages={freePages}
+                    loginHref={loginHref}
+                    registerHref={registerHref}
+                    description={`游客可免费阅读前 ${freePages} 页。登录或注册后，即可继续阅读全部 ${numPages || ""} 页。`}
+                  />
                 </div>
               ) : (
                 <div className="relative overflow-hidden rounded-[3px] bg-white shadow-[0_18px_50px_-24px_rgba(15,23,42,0.45)]">

@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { CalendarDays, FileText, Layers } from "lucide-react";
+import { CalendarDays, FileText, Layers, LockKeyhole } from "lucide-react";
 import { BookCover, FormatBadge } from "@/components/books/book-cover";
 import { ChapterList } from "@/components/books/chapter-list";
 import { StartReadingButton } from "@/components/books/start-reading-button";
+import { getReaderSession } from "@/lib/auth/reader";
 import { getBookDetail } from "@/lib/books/queries";
+import { isSupabaseConfigured } from "@/lib/env";
+import { FREE_PREVIEW_PAGES } from "@/lib/reader/preview";
 import { formatDate, formatWordCount } from "@/lib/utils";
 
 interface BookPageProps {
@@ -31,6 +34,12 @@ export default async function BookPage({ params }: BookPageProps) {
   const { id } = await params;
   const book = await getBookDetail(id);
   if (!book) notFound();
+
+  const session = await getReaderSession();
+  const previewActive = isSupabaseConfigured() && !session;
+  const detailPath = `/books/${book.id}`;
+  const loginHref = `/login?next=${encodeURIComponent(detailPath)}`;
+  const registerHref = `/register?next=${encodeURIComponent(detailPath)}`;
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 pb-20 pt-6 sm:px-6 sm:pt-8">
@@ -122,6 +131,20 @@ export default async function BookPage({ params }: BookPageProps) {
               coverUrl={book.coverUrl}
               format={book.format}
             />
+            {previewActive ? (
+              <p className="mt-3 flex flex-wrap items-center gap-1.5 text-xs text-ink-faint">
+                <LockKeyhole className="h-3.5 w-3.5 text-brand" aria-hidden />
+                游客可免费阅读前 {FREE_PREVIEW_PAGES} 页，
+                <Link href={loginHref} className="font-medium text-brand hover:underline">
+                  登录
+                </Link>
+                或
+                <Link href={registerHref} className="font-medium text-brand hover:underline">
+                  注册
+                </Link>
+                后阅读全书
+              </p>
+            ) : null}
           </div>
 
           <div className="mt-10 flex items-center gap-3 border-b border-line pb-3">
@@ -147,7 +170,11 @@ export default async function BookPage({ params }: BookPageProps) {
             </div>
           ) : (
             <div className="mt-5">
-              <ChapterList bookId={book.id} chapters={book.chapters} />
+              <ChapterList
+                bookId={book.id}
+                chapters={book.chapters}
+                previewPages={previewActive ? FREE_PREVIEW_PAGES : null}
+              />
             </div>
           )}
         </div>

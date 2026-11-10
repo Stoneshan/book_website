@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { PdfReader } from "@/components/reader/pdf-reader";
+import { getReaderSession } from "@/lib/auth/reader";
 import { demoBookFileUrl, getBookDetail } from "@/lib/books/queries";
 import { isSupabaseConfigured } from "@/lib/env";
+import { FREE_PREVIEW_PAGES } from "@/lib/reader/preview";
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 
 interface PdfReaderPageProps {
@@ -71,6 +73,8 @@ export default async function PdfReaderPage({ params, searchParams }: PdfReaderP
 
   const rawPage = typeof query.page === "string" ? Number.parseInt(query.page, 10) : NaN;
   const initialPage = Number.isFinite(rawPage) && rawPage > 0 ? rawPage : null;
+  const session = await getReaderSession();
+  const previewLimit = isSupabaseConfigured() && !session ? FREE_PREVIEW_PAGES : null;
 
   return (
     <PdfReader
@@ -84,6 +88,7 @@ export default async function PdfReaderPage({ params, searchParams }: PdfReaderP
       fileUrl={fileUrl}
       initialPage={initialPage}
       storedPageCount={book.pageCount}
+      previewLimit={previewLimit}
     />
   );
 }

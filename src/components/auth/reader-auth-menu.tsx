@@ -44,13 +44,17 @@ export function ReaderAuthMenu() {
     };
   }, []);
 
-  if (pathname === "/login" || pathname.startsWith("/admin")) return null;
+  if (pathname === "/login" || pathname === "/register" || pathname.startsWith("/admin")) {
+    return null;
+  }
   if (!isSupabaseConfigured() || !ready) return null;
 
   if (!email) {
+    const loginHref =
+      pathname && pathname !== "/" ? `/login?next=${encodeURIComponent(pathname)}` : "/login";
     return (
       <Link
-        href="/login"
+        href={loginHref}
         className="ml-1 flex items-center gap-1.5 rounded-full border border-line bg-white px-3.5 py-2 text-xs text-ink-soft shadow-sm transition-colors hover:border-brand/40 hover:text-brand"
       >
         <LogIn className="h-3.5 w-3.5" aria-hidden />

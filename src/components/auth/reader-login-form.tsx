@@ -6,12 +6,20 @@ import { useRouter } from "next/navigation";
 import { Loader2, LogIn, LogOut } from "lucide-react";
 import { isSupabaseConfigured } from "@/lib/env";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
+import { safeNextPath } from "@/lib/utils";
 
-export function ReaderLoginForm() {
+export function ReaderLoginForm({
+  next,
+  initialError,
+}: {
+  next?: string;
+  initialError?: string;
+}) {
   const router = useRouter();
+  const target = safeNextPath(next, "/");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState(initialError ?? "");
   const [pending, setPending] = useState(false);
   const [sessionEmail, setSessionEmail] = useState<string | null>(null);
   const [ready, setReady] = useState(false);
@@ -55,7 +63,7 @@ export function ReaderLoginForm() {
         setError("邮箱或密码错误。");
         return;
       }
-      router.push("/");
+      router.push(target);
       router.refresh();
     } catch {
       setError("登录失败，请稍后重试。");
@@ -94,10 +102,10 @@ export function ReaderLoginForm() {
         </div>
         <div className="flex flex-wrap gap-3">
           <Link
-            href="/"
-            className="rounded-full bg-brand px-5 py-2 text-sm tracking-wider text-white transition-colors hover:bg-brand-deep"
+            href={target}
+            className="rounded-full bg-brand px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-brand-deep"
           >
-            进入书架
+            {target === "/" ? "进入书架" : "继续阅读"}
           </Link>
           <button
             type="button"
@@ -156,10 +164,20 @@ export function ReaderLoginForm() {
       </button>
 
       <div className="rounded-md border border-line bg-paper-deep/30 px-3 py-2.5 text-[11px] leading-5 text-ink-faint">
-        当前为临时账号阶段，读者注册功能将在后续开放。书签与笔记仍保存在本机浏览器。
+        登录后可继续阅读完整书籍。书签、笔记与阅读进度仍保存在本机浏览器。
       </div>
 
       <p className="pt-1 text-center text-[11px] text-ink-faint">
+        还没有账号？
+        <Link
+          href={`/register?next=${encodeURIComponent(target)}`}
+          className="ml-1 text-brand underline underline-offset-4"
+        >
+          注册账号
+        </Link>
+      </p>
+
+      <p className="text-center text-[11px] text-ink-faint">
         <Link href="/" className="text-brand underline underline-offset-4">
           返回书架
         </Link>

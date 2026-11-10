@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import { ReaderDrawer } from "@/components/reader/reader-drawer";
 import { ReaderSettingsPanel } from "@/components/reader/reader-settings";
+import { PreviewGate } from "@/components/reader/preview-gate";
 import {
   addBookmark,
   addNote,
@@ -60,6 +61,12 @@ interface TextReaderProps {
   prev: ChapterListItem | null;
   next: ChapterListItem | null;
   resume: boolean;
+  preview?: {
+    freePages: number;
+    loginHref: string;
+    registerHref: string;
+    truncated: boolean;
+  } | null;
 }
 
 type DrawerName = "toc" | "bookmarks" | "notes" | "settings" | null;
@@ -80,6 +87,7 @@ export function TextReader({
   prev,
   next,
   resume,
+  preview = null,
 }: TextReaderProps) {
   const router = useRouter();
   const contentRef = useRef<HTMLDivElement>(null);
@@ -426,6 +434,11 @@ export function TextReader({
           </h1>
           <p className="mt-3 text-[11px]" style={{ color: "var(--reader-muted)" }}>
             {formatWordCount(chapter.wordCount)}
+            {preview ? (
+              <span className="ml-2" style={{ color: "var(--reader-accent)" }}>
+                · 免费试读前 {preview.freePages} 页
+              </span>
+            ) : null}
           </p>
         </div>
 
@@ -440,11 +453,22 @@ export function TextReader({
           dangerouslySetInnerHTML={{ __html: chapter.content }}
         />
 
-        <div className="mt-14 flex items-center gap-3 rule-ornament">
-          <span className="text-[10px] tracking-[0.32em]" style={{ color: "var(--reader-muted)" }}>
-            本章完
-          </span>
-        </div>
+        {preview?.truncated ? (
+          <div className="mt-12">
+            <PreviewGate
+              freePages={preview.freePages}
+              loginHref={preview.loginHref}
+              registerHref={preview.registerHref}
+              description={`本章为试读内容。游客可免费阅读前 ${preview.freePages} 页，登录或注册后可继续阅读本章及全书。`}
+            />
+          </div>
+        ) : (
+          <div className="mt-14 flex items-center gap-3 rule-ornament">
+            <span className="text-[10px] tracking-[0.32em]" style={{ color: "var(--reader-muted)" }}>
+              本章完
+            </span>
+          </div>
+        )}
 
         <nav className="mt-8 flex items-center justify-between gap-3">
           {prev ? (
@@ -459,7 +483,7 @@ export function TextReader({
           ) : (
             <span />
           )}
-          {next ? (
+          {next && !preview?.truncated ? (
             <Link
               href={`/books/${book.id}/read/${next.chapterNo}`}
               className={NAV_BUTTON}
@@ -474,7 +498,9 @@ export function TextReader({
         </nav>
 
         <div className="mt-10 flex items-center justify-center gap-3 text-[11px]" style={{ color: "var(--reader-muted)" }}>
-          <span>本章 {Math.round(ratio * 100)}%</span>
+          <span>
+            {preview?.truncated ? "试读已结束" : `本章 ${Math.round(ratio * 100)}%`}
+          </span>
           <span aria-hidden>·</span>
           <Link href={`/books/${book.id}`} className="underline underline-offset-4">
             返回目录
