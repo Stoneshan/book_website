@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Sparkles } from "lucide-react";
 import { BookCard } from "@/components/books/book-card";
 import { CategoryFilter } from "@/components/books/category-filter";
 import { ContinueReading } from "@/components/books/continue-reading";
@@ -44,33 +45,42 @@ export default async function HomePage({ searchParams }: HomePageProps) {
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 pb-16 sm:px-6">
-      <section className="relative overflow-hidden pb-10 pt-12 sm:pb-14 sm:pt-16">
+      <section className="relative mt-6 overflow-hidden rounded-3xl border border-white/70 bg-gradient-to-br from-[#e8f1ff] via-[#f2f7ff] to-white px-6 py-10 shadow-[0_28px_70px_-48px_rgba(43,124,246,0.55)] sm:mt-8 sm:px-12 sm:py-14">
         <div
-          className="pointer-events-none absolute -right-6 top-10 hidden select-none font-serif-cn text-[130px] leading-none tracking-[0.1em] text-ink/[0.035] sm:block"
+          className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-brand/10 blur-2xl"
+          aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute -bottom-28 right-16 h-64 w-64 rounded-full bg-[#9cc4ff]/25 blur-3xl"
+          aria-hidden
+        />
+        <span
+          className="pointer-events-none absolute -right-4 top-1/2 hidden -translate-y-1/2 select-none font-serif-cn text-[190px] leading-none text-brand/[0.06] lg:block"
           aria-hidden
         >
-          书
-        </div>
+          读
+        </span>
+
         <div className="relative max-w-2xl">
-          <p className="mb-4 flex items-center gap-2 text-[11px] tracking-[0.42em] text-vermilion">
-            <span className="inline-block h-px w-8 bg-vermilion/60" aria-hidden />
-            墨阅 · 静心阅读
+          <p className="inline-flex items-center gap-1.5 rounded-full bg-white/85 px-3 py-1 text-[11px] font-medium text-brand ring-1 ring-brand/15 backdrop-blur">
+            <Sparkles className="h-3 w-3" aria-hidden />
+            新书上架 · 静心阅读
           </p>
-          <h1 className="text-balance font-serif-cn text-4xl font-semibold leading-[1.24] tracking-[0.03em] text-ink sm:text-5xl">
+          <h1 className="mt-5 text-balance text-[34px] font-bold leading-[1.2] tracking-tight text-ink sm:text-5xl">
             把一本书，
             <br className="sm:hidden" />
-            读慢一点。
+            读慢一点<span className="text-brand">。</span>
           </h1>
-          <p className="mt-5 max-w-xl text-sm leading-7 text-ink-soft">
+          <p className="mt-4 max-w-xl text-sm leading-7 text-ink-soft sm:text-[15px]">
             收集值得反复读的文字。支持 TXT、Markdown、EPUB、MOBI、AZW3 与 PDF，
             打开即可阅读，进度、书签与笔记都留在你的浏览器里。
           </p>
           <div className="mt-7 max-w-xl">
-            <Suspense fallback={<div className="h-12 rounded-full border border-line bg-card/70" />}>
+            <Suspense fallback={<div className="h-12 rounded-full border border-line bg-white/80" />}>
               <SearchBar />
             </Suspense>
           </div>
-          <p className="mt-3 text-[11px] text-ink-faint">
+          <p className="mt-3 text-xs text-ink-faint">
             共 {result.total} 本
             {activeCategory ? ` · 分类「${activeCategory.name}」` : ""}
             {q ? ` · 搜索「${q}」` : ""}
@@ -78,7 +88,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
         </div>
       </section>
 
-      <div className="space-y-12">
+      <div className="mt-10 space-y-10 sm:mt-12 sm:space-y-12">
         <ContinueReading />
 
         <CategoryFilter
@@ -91,7 +101,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
         <section id="books" className="scroll-mt-24">
           <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
             <div>
-              <h2 className="font-serif-cn text-2xl tracking-[0.12em] text-ink">
+              <h2 className="text-xl font-semibold tracking-tight text-ink sm:text-2xl">
                 {activeCategory ? activeCategory.name : "全部书籍"}
               </h2>
               <p className="mt-1.5 text-xs text-ink-faint">
@@ -109,22 +119,27 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                 <div
                   key={book.id}
                   className="animate-rise"
-                  style={{ animationDelay: `${Math.min(index, 8) * 45}ms` }}
+                  style={{ animationDelay: `${Math.min(index, 8) * 40}ms` }}
                 >
                   <BookCard book={book} />
                 </div>
               ))}
             </div>
           ) : (
-            <div className="paper-card flex flex-col items-center justify-center rounded-lg px-6 py-16 text-center">
-              <p className="font-serif-cn text-2xl tracking-[0.2em] text-ink-faint">空</p>
-              <p className="mt-3 text-sm text-ink-soft">
+            <div className="paper-card flex flex-col items-center justify-center rounded-2xl px-6 py-16 text-center">
+              <span className="grid h-12 w-12 place-items-center rounded-full bg-brand-soft text-brand">
+                <Sparkles className="h-5 w-5" aria-hidden />
+              </span>
+              <p className="mt-4 text-base font-medium text-ink">
                 {hasFilters ? "没有找到匹配的书籍" : "书架还是空的"}
+              </p>
+              <p className="mt-1.5 text-sm text-ink-faint">
+                {hasFilters ? "换个关键词或分类试试" : "等第一本书上架"}
               </p>
               {hasFilters ? (
                 <Link
                   href="/"
-                  className="mt-5 rounded-full border border-line-strong px-4 py-1.5 text-xs text-ink-soft transition-colors hover:border-ink/40 hover:text-ink"
+                  className="mt-5 rounded-full border border-line-strong px-4 py-1.5 text-xs text-ink-soft transition-colors hover:border-brand/40 hover:text-brand"
                 >
                   清除筛选
                 </Link>

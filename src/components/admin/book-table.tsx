@@ -22,12 +22,12 @@ export interface AdminBookRow {
 export function AdminBookTable({ books }: { books: AdminBookRow[] }) {
   if (books.length === 0) {
     return (
-      <div className="paper-card rounded-lg px-6 py-16 text-center">
-        <p className="font-serif-cn text-xl tracking-[0.2em] text-ink-faint">空</p>
+      <div className="paper-card rounded-2xl px-6 py-16 text-center">
+        <p className="text-xl tracking-[0.2em] text-ink-faint">空</p>
         <p className="mt-3 text-sm text-ink-soft">还没有书，先上传一本吧。</p>
         <Link
           href="/admin/books/new"
-          className="mt-5 inline-block rounded-full bg-ink px-5 py-2 text-xs tracking-wider text-paper"
+          className="mt-5 inline-block rounded-full bg-brand px-5 py-2 text-xs text-white"
         >
           上传新书
         </Link>
@@ -68,7 +68,7 @@ export function AdminBookTable({ books }: { books: AdminBookRow[] }) {
                     <div className="min-w-0">
                       <Link
                         href={`/admin/books/${book.id}`}
-                        className="block max-w-[18rem] truncate font-serif-cn text-sm font-medium text-ink hover:text-vermilion"
+                        className="block max-w-[18rem] truncate text-sm font-medium text-ink hover:text-brand"
                       >
                         {book.title}
                       </Link>
@@ -76,7 +76,7 @@ export function AdminBookTable({ books }: { books: AdminBookRow[] }) {
                         {book.author}
                       </p>
                       {book.status === "failed" && book.parseError ? (
-                        <p className="mt-0.5 max-w-[18rem] truncate text-[10px] text-vermilion" title={book.parseError}>
+                        <p className="mt-0.5 max-w-[18rem] truncate text-[10px] text-danger" title={book.parseError}>
                           {book.parseError}
                         </p>
                       ) : null}
@@ -107,7 +107,7 @@ export function AdminBookTable({ books }: { books: AdminBookRow[] }) {
                 <td className="px-4 py-3 text-right">
                   <Link
                     href={`/admin/books/${book.id}`}
-                    className="rounded-full border border-line-strong px-3 py-1 text-[11px] text-ink-soft transition-colors hover:border-ink/40 hover:text-ink"
+                    className="rounded-full border border-line px-3 py-1 text-[11px] text-ink-soft transition-colors hover:border-brand/40 hover:text-brand"
                   >
                     编辑
                   </Link>

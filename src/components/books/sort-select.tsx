@@ -28,7 +28,7 @@ export function SortSelect({ value }: { value: string }) {
           const suffix = params.toString();
           router.replace(suffix ? `${pathname}?${suffix}` : pathname, { scroll: false });
         }}
-        className="cursor-pointer rounded-full border border-line-strong/70 bg-card/70 px-3 py-1.5 text-xs text-ink-soft outline-none transition-colors hover:border-ink/40"
+        className="cursor-pointer rounded-full border border-line bg-white px-3 py-1.5 text-xs text-ink-soft shadow-sm outline-none transition-colors hover:border-brand/40 hover:text-brand"
       >
         {options.map((option) => (
           <option key={option.value} value={option.value}>

@@ -27,11 +27,9 @@ export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
 
   return (
     <div className="mx-auto flex min-h-[calc(100vh-3.5rem)] w-full max-w-md flex-col justify-center px-4 py-12">
-      <div className="paper-card rounded-lg p-6 sm:p-8">
-        <p className="text-[11px] tracking-[0.36em] text-vermilion">管理后台</p>
-        <h1 className="mt-3 font-serif-cn text-2xl font-semibold tracking-[0.06em] text-ink">
-          登录墨阅
-        </h1>
+      <div className="paper-card rounded-2xl p-6 sm:p-8">
+        <p className="text-xs font-medium text-brand">管理后台</p>
+        <h1 className="mt-2 text-2xl font-bold tracking-tight text-ink">登录墨阅</h1>
         <p className="mt-2 text-xs leading-6 text-ink-faint">
           使用 Supabase Auth 管理员账号登录。仅 ADMIN_EMAILS 中的邮箱可进入。
         </p>

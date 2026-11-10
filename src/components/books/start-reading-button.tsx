@@ -62,7 +62,7 @@ export function StartReadingButton({
             });
           }
         }}
-        className="inline-flex items-center gap-2 rounded-full bg-vermilion px-6 py-2.5 text-sm tracking-wider text-paper shadow-[0_10px_24px_-14px_rgba(163,58,43,0.9)] transition-colors hover:bg-[#8f3124]"
+        className="inline-flex items-center gap-2 rounded-full bg-brand px-6 py-2.5 text-sm font-medium text-white shadow-[0_12px_28px_-14px_rgba(43,124,246,0.95)] transition-colors hover:bg-brand-deep"
       >
         <Play className="h-4 w-4" aria-hidden />
         {ready ? label : "开始阅读"}
@@ -71,7 +71,7 @@ export function StartReadingButton({
       {progress ? (
         <Link
           href={startHref}
-          className="inline-flex items-center gap-2 rounded-full border border-line-strong px-5 py-2.5 text-sm text-ink-soft transition-colors hover:border-ink/40 hover:text-ink"
+          className="inline-flex items-center gap-2 rounded-full border border-line bg-white px-5 py-2.5 text-sm text-ink-soft transition-colors hover:border-brand/40 hover:text-brand"
         >
           <BookOpen className="h-4 w-4" aria-hidden />
           {renderMode === "pdf" ? "从第一页开始" : "从第一章开始"}

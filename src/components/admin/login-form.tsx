@@ -26,7 +26,7 @@ export function LoginForm({ next }: LoginFormProps) {
           required
           autoComplete="username"
           placeholder="you@example.com"
-          className="w-full rounded-md border border-line-strong bg-card/80 px-3.5 py-2.5 text-sm text-ink outline-none transition-colors focus:border-vermilion/50"
+          className="w-full rounded-lg border border-line bg-white px-3.5 py-2.5 text-sm text-ink outline-none transition-colors focus:border-brand/50"
         />
       </label>
       <label className="block">
@@ -37,12 +37,12 @@ export function LoginForm({ next }: LoginFormProps) {
           required
           autoComplete="current-password"
           placeholder="••••••••"
-          className="w-full rounded-md border border-line-strong bg-card/80 px-3.5 py-2.5 text-sm text-ink outline-none transition-colors focus:border-vermilion/50"
+          className="w-full rounded-lg border border-line bg-white px-3.5 py-2.5 text-sm text-ink outline-none transition-colors focus:border-brand/50"
         />
       </label>
 
       {state.error ? (
-        <p className="rounded-md border border-vermilion/20 bg-vermilion/6 px-3 py-2 text-xs text-vermilion">
+        <p className="rounded-md border border-danger/20 bg-danger/5 px-3 py-2 text-xs text-danger">
           {state.error}
         </p>
       ) : null}
@@ -50,7 +50,7 @@ export function LoginForm({ next }: LoginFormProps) {
       <button
         type="submit"
         disabled={pending}
-        className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-ink py-2.5 text-sm tracking-widest text-paper transition-colors hover:bg-ink/85 disabled:opacity-60"
+        className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand py-2.5 text-sm text-white transition-colors hover:bg-brand/85 disabled:opacity-60"
       >
         <LogIn className="h-4 w-4" aria-hidden />
         {pending ? "登录中…" : "进入后台"}
@@ -58,7 +58,7 @@ export function LoginForm({ next }: LoginFormProps) {
 
       <p className="pt-1 text-center text-[11px] text-ink-faint">
         没有账号？管理员需在 Supabase 控制台创建。
-        <Link href="/" className="ml-2 text-vermilion underline underline-offset-4">
+        <Link href="/" className="ml-2 text-brand underline underline-offset-4">
           返回书架
         </Link>
       </p>

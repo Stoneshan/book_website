@@ -66,7 +66,7 @@ interface OutlineEntry {
 type DrawerName = "outline" | "bookmarks" | "notes" | "settings" | null;
 
 const THEMES = [
-  { value: "light", label: "纸白" },
+  { value: "light", label: "白色" },
   { value: "sepia", label: "米黄" },
   { value: "dark", label: "夜间" },
 ] as const;
@@ -454,7 +454,7 @@ export function PdfReader({ book, fileUrl, initialPage, storedPageCount }: PdfRe
             <Link
               href={`/books/${book.id}`}
               aria-label="返回书籍详情"
-              className="grid h-9 w-9 shrink-0 place-items-center rounded-full transition-colors hover:bg-black/5"
+              className="grid h-9 w-9 shrink-0 place-items-center rounded-full transition-colors reader-hover"
             >
               <ArrowLeft className="h-4 w-4" aria-hidden />
             </Link>
@@ -462,7 +462,7 @@ export function PdfReader({ book, fileUrl, initialPage, storedPageCount }: PdfRe
               <p className="hidden truncate text-[11px] tracking-wide sm:block" style={{ color: "var(--reader-muted)" }}>
                 {book.title} · PDF
               </p>
-              <p className="truncate font-serif-cn text-sm tracking-wide">
+              <p className="truncate text-sm font-medium tracking-wide">
                 第 {page} / {numPages || "?"} 页
               </p>
             </div>
@@ -474,7 +474,7 @@ export function PdfReader({ book, fileUrl, initialPage, storedPageCount }: PdfRe
               onClick={() => setDrawer(drawer === "outline" ? null : "outline")}
               aria-label="PDF 目录"
               title="PDF 目录"
-              className="grid h-9 w-9 place-items-center rounded-full transition-colors hover:bg-black/5"
+              className="grid h-9 w-9 place-items-center rounded-full transition-colors reader-hover"
               disabled={outline.length === 0}
             >
               <List className={cn("h-4 w-4", outline.length === 0 && "opacity-30")} aria-hidden />
@@ -484,7 +484,7 @@ export function PdfReader({ book, fileUrl, initialPage, storedPageCount }: PdfRe
               onClick={() => setDrawer(drawer === "bookmarks" ? null : "bookmarks")}
               aria-label="书签"
               title="书签"
-              className="grid h-9 w-9 place-items-center rounded-full transition-colors hover:bg-black/5"
+              className="grid h-9 w-9 place-items-center rounded-full transition-colors reader-hover"
               style={{ color: pageBookmark ? "var(--reader-accent)" : undefined }}
             >
               {pageBookmark ? (
@@ -498,7 +498,7 @@ export function PdfReader({ book, fileUrl, initialPage, storedPageCount }: PdfRe
               onClick={() => setDrawer(drawer === "notes" ? null : "notes")}
               aria-label="笔记"
               title="笔记"
-              className="relative grid h-9 w-9 place-items-center rounded-full transition-colors hover:bg-black/5"
+              className="relative grid h-9 w-9 place-items-center rounded-full transition-colors reader-hover"
             >
               <NotebookPen className="h-4 w-4" aria-hidden />
               {notes.length > 0 ? (
@@ -515,7 +515,7 @@ export function PdfReader({ book, fileUrl, initialPage, storedPageCount }: PdfRe
               onClick={() => setDrawer(drawer === "settings" ? null : "settings")}
               aria-label="阅读设置"
               title="阅读设置"
-              className="grid h-9 w-9 place-items-center rounded-full transition-colors hover:bg-black/5"
+              className="grid h-9 w-9 place-items-center rounded-full transition-colors reader-hover"
             >
               <Settings2 className="h-4 w-4" aria-hidden />
             </button>
@@ -523,36 +523,36 @@ export function PdfReader({ book, fileUrl, initialPage, storedPageCount }: PdfRe
         </div>
       </header>
 
-      <div ref={scrollRef} className="reader-scroll relative flex-1 overflow-auto">
+      <div ref={scrollRef} className="reader-scroll pdf-desk relative flex-1 overflow-auto">
         <div className="mx-auto flex min-h-full w-full max-w-6xl flex-col items-center px-2 pb-32 pt-6 sm:px-6 sm:pt-10">
           <div ref={stageRef} className="flex w-full justify-center px-1">
             <div className="relative">
               {loading || !doc ? (
-                <div className="flex h-[60vh] w-[min(90vw,720px)] flex-col items-center justify-center gap-4 rounded-sm border border-line/60 bg-card/60 text-sm text-ink-soft">
-                  <div className="h-8 w-8 animate-spin rounded-full border-2 border-ink/15 border-t-vermilion" />
+                <div className="flex h-[60vh] w-[min(90vw,720px)] flex-col items-center justify-center gap-4 rounded-2xl border border-line bg-white/80 text-sm text-ink-soft">
+                  <div className="h-8 w-8 animate-spin rounded-full border-2 border-ink/15 border-t-brand" />
                   正在打开 PDF…
                 </div>
               ) : error ? (
-                <div className="flex w-[min(90vw,520px)] flex-col items-center gap-4 rounded-md border border-line bg-card p-8 text-center">
-                  <p className="font-serif-cn text-lg text-ink">{error}</p>
+                <div className="flex w-[min(90vw,520px)] flex-col items-center gap-4 rounded-2xl border border-line bg-white p-8 text-center">
+                  <p className="text-lg font-medium text-ink">{error}</p>
                   <div className="flex gap-3 text-sm">
                     <button
                       type="button"
                       onClick={() => setReloadKey((key) => key + 1)}
-                      className="rounded-full border border-line-strong px-4 py-1.5 text-ink-soft"
+                      className="rounded-full border border-line bg-white px-4 py-1.5 text-ink-soft transition-colors hover:border-brand/40 hover:text-brand"
                     >
                       重新加载
                     </button>
                     <Link
                       href={`/books/${book.id}`}
-                      className="rounded-full bg-ink px-4 py-1.5 text-paper"
+                      className="rounded-full bg-brand px-4 py-1.5 text-white transition-colors hover:bg-brand-deep"
                     >
                       返回详情
                     </Link>
                   </div>
                 </div>
               ) : (
-                <div className="relative overflow-hidden rounded-[2px] bg-white shadow-[0_20px_50px_-20px_rgba(20,16,10,0.55)]">
+                <div className="relative overflow-hidden rounded-[3px] bg-white shadow-[0_18px_50px_-24px_rgba(15,23,42,0.45)]">
                   <canvas ref={setCanvasNode} className="block max-w-none" />
                   {settings.pdfDim > 0 ? (
                     <div
@@ -563,7 +563,7 @@ export function PdfReader({ book, fileUrl, initialPage, storedPageCount }: PdfRe
                   ) : null}
                   {rendering ? (
                     <div className="pointer-events-none absolute inset-0 grid place-items-center bg-white/40">
-                      <div className="h-6 w-6 animate-spin rounded-full border-2 border-ink/15 border-t-vermilion" />
+                      <div className="h-6 w-6 animate-spin rounded-full border-2 border-ink/15 border-t-brand" />
                     </div>
                   ) : null}
                 </div>
@@ -590,7 +590,7 @@ export function PdfReader({ book, fileUrl, initialPage, storedPageCount }: PdfRe
             onClick={() => goToPage(page - 1)}
             disabled={page <= 1}
             aria-label="上一页"
-            className="grid h-8 w-8 place-items-center rounded-full transition-colors hover:bg-black/5 disabled:opacity-30"
+            className="grid h-8 w-8 place-items-center rounded-full transition-colors reader-hover disabled:opacity-30"
           >
             <ChevronLeft className="h-4 w-4" aria-hidden />
           </button>
@@ -617,7 +617,7 @@ export function PdfReader({ book, fileUrl, initialPage, storedPageCount }: PdfRe
             onClick={() => goToPage(page + 1)}
             disabled={!numPages || page >= numPages}
             aria-label="下一页"
-            className="grid h-8 w-8 place-items-center rounded-full transition-colors hover:bg-black/5 disabled:opacity-30"
+            className="grid h-8 w-8 place-items-center rounded-full transition-colors reader-hover disabled:opacity-30"
           >
             <ChevronRight className="h-4 w-4" aria-hidden />
           </button>
@@ -629,7 +629,7 @@ export function PdfReader({ book, fileUrl, initialPage, storedPageCount }: PdfRe
             onClick={() => changeZoom(zoom - 0.1)}
             disabled={zoom <= 0.5}
             aria-label="缩小"
-            className="grid h-8 w-8 place-items-center rounded-full transition-colors hover:bg-black/5 disabled:opacity-30"
+            className="grid h-8 w-8 place-items-center rounded-full transition-colors reader-hover disabled:opacity-30"
           >
             <Minus className="h-4 w-4" aria-hidden />
           </button>
@@ -641,7 +641,7 @@ export function PdfReader({ book, fileUrl, initialPage, storedPageCount }: PdfRe
             onClick={() => changeZoom(zoom + 0.1)}
             disabled={zoom >= 3}
             aria-label="放大"
-            className="grid h-8 w-8 place-items-center rounded-full transition-colors hover:bg-black/5 disabled:opacity-30"
+            className="grid h-8 w-8 place-items-center rounded-full transition-colors reader-hover disabled:opacity-30"
           >
             <Plus className="h-4 w-4" aria-hidden />
           </button>
@@ -650,7 +650,7 @@ export function PdfReader({ book, fileUrl, initialPage, storedPageCount }: PdfRe
             onClick={() => changeZoom(1)}
             aria-label="适合宽度"
             title="适合宽度"
-            className="grid h-8 w-8 place-items-center rounded-full transition-colors hover:bg-black/5"
+            className="grid h-8 w-8 place-items-center rounded-full transition-colors reader-hover"
           >
             <Maximize2 className="h-3.5 w-3.5" aria-hidden />
           </button>
@@ -682,10 +682,10 @@ export function PdfReader({ book, fileUrl, initialPage, storedPageCount }: PdfRe
                       setDrawer(null);
                     }
                   }}
-                  className="flex w-full items-center justify-between gap-3 rounded-sm px-2 py-2.5 text-left text-sm transition-colors hover:bg-black/5 disabled:opacity-40"
+                  className="flex w-full items-center justify-between gap-3 rounded-sm px-2 py-2.5 text-left text-sm transition-colors reader-hover disabled:opacity-40"
                   style={{ paddingLeft: `${8 + Math.min(item.depth, 5) * 14}px` }}
                 >
-                  <span className="min-w-0 flex-1 truncate font-serif-cn">{item.title}</span>
+                  <span className="min-w-0 flex-1 truncate">{item.title}</span>
                   {item.page ? (
                     <span className="shrink-0 text-[10px] opacity-60">第 {item.page} 页</span>
                   ) : null}
@@ -738,7 +738,7 @@ export function PdfReader({ book, fileUrl, initialPage, storedPageCount }: PdfRe
                     }}
                     className="min-w-0 flex-1 text-left"
                   >
-                    <p className="font-serif-cn text-sm">{entry.label}</p>
+                    <p className="text-sm">{entry.label}</p>
                     <p className="mt-1 text-[10px]" style={{ color: "var(--reader-muted)" }}>
                       {formatRelativeDate(entry.createdAt)}
                     </p>
@@ -751,7 +751,7 @@ export function PdfReader({ book, fileUrl, initialPage, storedPageCount }: PdfRe
                       refreshCollections();
                       flash("已移除书签");
                     }}
-                    className="grid h-7 w-7 shrink-0 place-items-center rounded-full opacity-50 transition-opacity hover:bg-black/5 hover:opacity-100"
+                    className="grid h-7 w-7 shrink-0 place-items-center rounded-full opacity-50 transition-opacity reader-hover hover:opacity-100"
                   >
                     <Trash2 className="h-3.5 w-3.5" aria-hidden />
                   </button>
@@ -865,7 +865,7 @@ export function PdfReader({ book, fileUrl, initialPage, storedPageCount }: PdfRe
                             setEditingNoteId(note.id);
                             setEditingBody(note.body);
                           }}
-                          className="rounded-full px-1.5 py-0.5 hover:bg-black/5"
+                          className="rounded-full px-1.5 py-0.5 reader-hover"
                         >
                           编辑
                         </button>
@@ -877,7 +877,7 @@ export function PdfReader({ book, fileUrl, initialPage, storedPageCount }: PdfRe
                           refreshCollections();
                           flash("笔记已删除");
                         }}
-                        className="rounded-full px-1.5 py-0.5 hover:bg-black/5"
+                        className="rounded-full px-1.5 py-0.5 reader-hover"
                       >
                         删除
                       </button>

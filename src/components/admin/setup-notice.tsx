@@ -9,9 +9,9 @@ export function SetupNotice() {
 
   return (
     <div className="mx-auto w-full max-w-3xl px-4 py-12 sm:px-6">
-      <div className="paper-card rounded-lg p-6 sm:p-8">
-        <p className="text-[11px] tracking-[0.36em] text-vermilion">初始化后台</p>
-        <h1 className="mt-3 font-serif-cn text-3xl font-semibold tracking-[0.04em] text-ink">
+      <div className="paper-card rounded-2xl p-6 sm:p-8">
+        <p className="text-[11px] tracking-[0.36em] text-brand">初始化后台</p>
+        <h1 className="mt-3 text-2xl font-bold tracking-tight text-ink">
           还差几步，就能开始管理书籍
         </h1>
         <p className="mt-3 text-sm leading-7 text-ink-soft">
@@ -30,7 +30,7 @@ export function SetupNotice() {
               href="https://supabase.com/dashboard"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-vermilion underline underline-offset-4"
+              className="text-brand underline underline-offset-4"
             >
               supabase.com/dashboard
             </a>
@@ -68,7 +68,7 @@ export function SetupNotice() {
           </Step>
           <Step index={6} title="重启并登录">
             重新启动开发服务器，访问{" "}
-            <Link href="/admin/login" className="text-vermilion underline underline-offset-4">
+            <Link href="/admin/login" className="text-brand underline underline-offset-4">
               /admin/login
             </Link>
             。
@@ -114,11 +114,11 @@ function Step({
 }) {
   return (
     <li className="flex gap-4">
-      <span className="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-full border border-line-strong font-serif-cn text-xs text-ink-soft">
+      <span className="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-full border border-line text-xs text-ink-soft">
         {index}
       </span>
       <div>
-        <p className="font-serif-cn text-base text-ink">{title}</p>
+        <p className="text-base text-ink">{title}</p>
         <div className="mt-1">{children}</div>
       </div>
     </li>

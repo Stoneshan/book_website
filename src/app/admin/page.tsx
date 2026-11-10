@@ -78,8 +78,8 @@ export default async function AdminPage() {
     <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-[11px] tracking-[0.34em] text-vermilion">管理后台</p>
-          <h1 className="mt-2 font-serif-cn text-3xl font-semibold tracking-[0.04em] text-ink">
+          <p className="text-xs font-medium text-brand">管理后台</p>
+          <h1 className="mt-2 text-2xl font-bold tracking-tight text-ink">
             书库总览
           </h1>
           <p className="mt-2 text-xs text-ink-faint">
@@ -88,7 +88,7 @@ export default async function AdminPage() {
         </div>
         <Link
           href="/admin/books/new"
-          className="inline-flex items-center gap-2 rounded-full bg-vermilion px-5 py-2.5 text-sm tracking-wider text-paper transition-colors hover:bg-[#8f3124]"
+          className="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-sm text-white transition-colors hover:bg-brand-deep"
         >
           <Plus className="h-4 w-4" aria-hidden />
           上传新书
@@ -124,7 +124,7 @@ export default async function AdminPage() {
       </div>
 
       {error ? (
-        <div className="mt-6 flex items-start gap-2 rounded-md border border-vermilion/20 bg-vermilion/6 px-4 py-3 text-xs text-vermilion">
+        <div className="mt-6 flex items-start gap-2 rounded-md border border-danger/20 bg-danger/5 px-4 py-3 text-xs text-danger">
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
           数据库读取失败：{error.message}
         </div>
@@ -133,12 +133,12 @@ export default async function AdminPage() {
       <div className="mt-8">
         <div className="mb-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <h2 className="font-serif-cn text-lg tracking-[0.16em] text-ink">全部书籍</h2>
+            <h2 className="text-lg font-semibold tracking-tight text-ink">全部书籍</h2>
             <span className="text-[11px] text-ink-faint">
               含待上传、解析中与失败记录
             </span>
           </div>
-          <Link href="/" className="text-xs text-ink-faint hover:text-vermilion">
+          <Link href="/" className="text-xs text-ink-faint hover:text-brand">
             查看前台 →
           </Link>
         </div>
@@ -146,7 +146,7 @@ export default async function AdminPage() {
       </div>
 
       {failed.length > 0 ? (
-        <div className="mt-6 rounded-md border border-vermilion/20 bg-vermilion/5 px-4 py-3 text-xs leading-6 text-vermilion">
+        <div className="mt-6 rounded-md border border-danger/20 bg-danger/5 px-4 py-3 text-xs leading-6 text-danger">
           有 {failed.length} 本书解析失败。打开书籍编辑页可以查看原因并重试解析。
         </div>
       ) : null}
@@ -168,16 +168,16 @@ function Stat({
   tone?: "normal" | "danger";
 }) {
   return (
-    <div className="paper-card rounded-lg px-4 py-4">
+    <div className="paper-card rounded-2xl px-4 py-4">
       <div
         className={`flex items-center gap-1.5 text-[11px] tracking-wider ${
-          tone === "danger" ? "text-vermilion" : "text-ink-faint"
+          tone === "danger" ? "text-danger" : "text-ink-faint"
         }`}
       >
         {icon}
         {label}
       </div>
-      <p className="mt-2 font-serif-cn text-2xl font-semibold text-ink">{value}</p>
+      <p className="mt-2 text-2xl font-semibold text-ink">{value}</p>
       <p className="mt-0.5 text-[10px] text-ink-faint">{hint}</p>
     </div>
   );

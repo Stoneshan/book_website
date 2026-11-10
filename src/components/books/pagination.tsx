@@ -37,7 +37,7 @@ export function Pagination(props: PaginationProps) {
       {props.page > 1 ? (
         <Link
           href={pageHref(props, props.page - 1)}
-          className="rounded-full border border-line-strong/70 px-3.5 py-1.5 text-xs text-ink-soft transition-colors hover:border-ink/40 hover:text-ink"
+          className="rounded-full border border-line bg-white px-3.5 py-1.5 text-xs text-ink-soft shadow-sm transition-colors hover:border-brand/40 hover:text-brand"
         >
           上一页
         </Link>
@@ -54,8 +54,8 @@ export function Pagination(props: PaginationProps) {
             className={cn(
               "grid h-8 w-8 place-items-center rounded-full text-xs transition-colors",
               page === props.page
-                ? "bg-ink text-paper"
-                : "border border-line-strong/70 text-ink-soft hover:border-ink/40 hover:text-ink",
+                ? "bg-brand font-medium text-white shadow-[0_6px_16px_-10px_rgba(43,124,246,0.9)]"
+                : "border border-line bg-white text-ink-soft hover:border-brand/40 hover:text-brand",
             )}
           >
             {page}
@@ -66,7 +66,7 @@ export function Pagination(props: PaginationProps) {
       {props.page < totalPages ? (
         <Link
           href={pageHref(props, props.page + 1)}
-          className="rounded-full border border-line-strong/70 px-3.5 py-1.5 text-xs text-ink-soft transition-colors hover:border-ink/40 hover:text-ink"
+          className="rounded-full border border-line bg-white px-3.5 py-1.5 text-xs text-ink-soft shadow-sm transition-colors hover:border-brand/40 hover:text-brand"
         >
           下一页
         </Link>

@@ -12,8 +12,8 @@ export default function ErrorPage({
 }) {
   return (
     <div className="mx-auto flex w-full max-w-xl flex-col items-center px-4 py-28 text-center">
-      <p className="font-serif-cn text-5xl text-vermilion/25">意外</p>
-      <h1 className="mt-6 font-serif-cn text-2xl tracking-[0.12em] text-ink">
+      <p className="text-5xl text-brand/25">意外</p>
+      <h1 className="mt-6 text-2xl tracking-[0.12em] text-ink">
         页面出了点问题
       </h1>
       <p className="mt-3 max-w-md text-sm leading-6 text-ink-soft">
@@ -23,7 +23,7 @@ export default function ErrorPage({
         <button
           type="button"
           onClick={reset}
-          className="inline-flex items-center gap-1.5 rounded-full bg-ink px-5 py-2 text-sm text-paper transition-colors hover:bg-ink/85"
+          className="inline-flex items-center gap-1.5 rounded-full bg-brand px-5 py-2 text-sm text-white transition-colors hover:bg-brand-deep"
         >
           <RotateCcw className="h-3.5 w-3.5" aria-hidden />
           重试

@@ -357,7 +357,7 @@ export function TextReader({
             <Link
               href={`/books/${book.id}`}
               aria-label="返回书籍详情"
-              className="grid h-9 w-9 shrink-0 place-items-center rounded-full transition-colors hover:bg-black/5"
+              className="grid h-9 w-9 shrink-0 place-items-center rounded-full transition-colors reader-hover"
             >
               <ArrowLeft className="h-4 w-4" aria-hidden />
             </Link>
@@ -365,7 +365,7 @@ export function TextReader({
               <p className="hidden truncate text-[11px] tracking-wide sm:block" style={{ color: "var(--reader-muted)" }}>
                 {book.title}
               </p>
-              <p className="truncate font-serif-cn text-sm tracking-wide">
+              <p className="truncate text-sm font-medium tracking-wide">
                 第 {chapter.chapterNo} 章 · {chapter.title}
               </p>
             </div>
@@ -519,7 +519,7 @@ export function TextReader({
                   href={`/books/${book.id}/read/${item.chapterNo}`}
                   onClick={() => setDrawer(null)}
                   className={cn(
-                    "flex items-center gap-3 rounded-sm px-2 py-2.5 text-sm transition-colors hover:bg-black/5",
+                    "flex items-center gap-3 rounded-sm px-2 py-2.5 text-sm transition-colors reader-hover",
                     active && "font-semibold",
                   )}
                   style={{ color: active ? "var(--reader-accent)" : undefined }}
@@ -527,7 +527,7 @@ export function TextReader({
                   <span className="w-7 shrink-0 text-right text-[10px] tabular-nums opacity-60">
                     {String(item.chapterNo).padStart(2, "0")}
                   </span>
-                  <span className="min-w-0 flex-1 truncate font-serif-cn tracking-wide">
+                  <span className="min-w-0 flex-1 truncate tracking-wide">
                     {item.title}
                   </span>
                   <span className="shrink-0 text-[10px] opacity-50">
@@ -579,7 +579,7 @@ export function TextReader({
                     onClick={() => setDrawer(null)}
                     className="min-w-0 flex-1"
                   >
-                    <p className="truncate font-serif-cn text-sm">{entry.label}</p>
+                    <p className="truncate text-sm">{entry.label}</p>
                     <p className="mt-1 text-[10px]" style={{ color: "var(--reader-muted)" }}>
                       {formatRelativeDate(entry.createdAt)}
                       {entry.locator.kind === "chapter" && entry.locator.ratio > 0.02
@@ -595,7 +595,7 @@ export function TextReader({
                       refreshCollections();
                       flash("已移除书签");
                     }}
-                    className="grid h-7 w-7 shrink-0 place-items-center rounded-full opacity-50 transition-opacity hover:bg-black/5 hover:opacity-100"
+                    className="grid h-7 w-7 shrink-0 place-items-center rounded-full opacity-50 transition-opacity reader-hover hover:opacity-100"
                   >
                     <Trash2 className="h-3.5 w-3.5" aria-hidden />
                   </button>
@@ -731,7 +731,7 @@ export function TextReader({
                             setEditingNoteId(note.id);
                             setEditingBody(note.body);
                           }}
-                          className="rounded-full px-1.5 py-0.5 hover:bg-black/5"
+                          className="rounded-full px-1.5 py-0.5 reader-hover"
                         >
                           编辑
                         </button>
@@ -743,7 +743,7 @@ export function TextReader({
                           refreshCollections();
                           flash("笔记已删除");
                         }}
-                        className="rounded-full px-1.5 py-0.5 hover:bg-black/5"
+                        className="rounded-full px-1.5 py-0.5 reader-hover"
                       >
                         删除
                       </button>
@@ -795,7 +795,7 @@ function IconButton({
       onClick={onClick}
       aria-label={label}
       title={label}
-      className="relative grid h-9 w-9 place-items-center rounded-full transition-colors hover:bg-black/5"
+      className="relative grid h-9 w-9 place-items-center rounded-full transition-colors reader-hover"
       style={{ color: active ? "var(--reader-accent)" : undefined }}
     >
       {children}

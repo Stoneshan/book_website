@@ -28,15 +28,15 @@ export default async function NewBookPage() {
     <div className="mx-auto w-full max-w-4xl px-4 py-8 sm:px-6 sm:py-10">
       <Link
         href="/admin"
-        className="inline-flex items-center gap-1.5 text-xs text-ink-faint transition-colors hover:text-vermilion"
+        className="inline-flex items-center gap-1.5 text-xs text-ink-faint transition-colors hover:text-brand"
       >
         <ArrowLeft className="h-3.5 w-3.5" aria-hidden />
         返回仪表盘
       </Link>
 
       <div className="mt-4">
-        <p className="text-[11px] tracking-[0.34em] text-vermilion">新增书籍</p>
-        <h1 className="mt-2 font-serif-cn text-3xl font-semibold tracking-[0.04em] text-ink">
+        <p className="text-xs font-medium text-brand">新增书籍</p>
+        <h1 className="mt-2 text-2xl font-bold tracking-tight text-ink">
           上传一本书
         </h1>
         <p className="mt-2 max-w-2xl text-sm leading-7 text-ink-soft">
